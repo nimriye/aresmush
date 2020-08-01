@@ -48,7 +48,24 @@ module AresMUSH
              }
            }
         }}
-        
+
+
+        # Build Visions list for display.
+        def get_visions_list(list)
+          list = list.to_a.sort_by { |c| c.date }.reverse
+          list[0...10].map { |c|
+          {
+            name: c.name,
+            date: c.date,
+            desc: Website.format_markdown_for_html(c.desc)
+          }}
+        end
+
+        visions = get_visions_list(char.visions)
+        show_visions = enactor.is_admin? || char == enactor
+        # End additional Visions code.
+
+
         details = char.details.map { |name, desc| {
           name: name,
           desc: Website.format_markdown_for_html(desc)
@@ -86,7 +103,15 @@ module AresMUSH
         if (enactor)
           Login.mark_notices_read(enactor, :achievement)
         end
-          
+
+
+        # Mark Vision notifications as read, upon request of character page.
+        if (enactor)
+          Login.mark_notices_read(enactor, :visions)
+        end
+        # end Visions addition
+
+
         {
           id: char.id,
           name: char.name,
@@ -104,6 +129,7 @@ module AresMUSH
           can_manage: can_manage,
           profile: profile,
           relationships: relationships,
+          visions: show_visions ? visions : nil,
           last_online: OOCTime.local_long_timestr(enactor, char.last_on),
           profile_gallery: gallery_files.map { |g| Website.get_file_info(g) },
           background: show_background ? Website.format_markdown_for_html(char.background) : nil,
