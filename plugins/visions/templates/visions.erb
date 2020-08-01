@@ -1,0 +1,15 @@
+<%= header %>
+%xh<%= t('visions.visions_title', :name => @char.name) %>%xn
+<% paginator.page_items.each do |vision| %>
+<%= divider %>
+%xh[#<%= vision.id %>] <%= vision.date %> - <%= vision.name %>%xn
+<%= divider %>
+<% if vision.desc.length < 60 %>
+<%= vision.desc %>
+<% else %>
+<%= vision.desc[0..60] %>... (read more)
+<% end %>
+<% end %>
+
+<%= paginator.page_footer %>
+<%= footer %>
