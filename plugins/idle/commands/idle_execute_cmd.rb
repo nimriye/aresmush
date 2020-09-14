@@ -17,7 +17,7 @@ module AresMUSH
       def handle
         report = []
         
-        Manage.announce t('idle.idle_sweep_beginning')
+        # Manage.announce t('idle.idle_sweep_beginning')
         client.program[:idle_queue].map { |id, action| action }.uniq.each do |action|
           ids =  client.program[:idle_queue].select { |id, a| a == action }
           chars = ids.map { |id, action| Character[id] }
@@ -73,7 +73,7 @@ module AresMUSH
           t('idle.idle_post_subject'), 
           t('idle.idle_post_body', :report => report.join("%R")))
         
-          Manage.announce t('idle.idle_sweep_finished')
+        # Manage.announce t('idle.idle_sweep_finished')
       end      
     end
   end

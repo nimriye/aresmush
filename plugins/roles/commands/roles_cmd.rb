@@ -8,6 +8,11 @@ module AresMUSH
       def parse_args
         self.name = !cmd.args ? enactor_name : trim_arg(cmd.args)
       end
+
+      def check_can_use
+        return t('dispatcher.not_allowed') if !enactor.is_admin?
+        return nil
+      end
       
       def handle        
         ClassTargetFinder.with_a_character(self.name, client, enactor) do |char|

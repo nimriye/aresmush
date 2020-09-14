@@ -62,7 +62,9 @@ module AresMUSH
         end
 
         visions = get_visions_list(char.visions)
-        show_visions = enactor.is_admin? || char == enactor
+        if (enactor)
+          show_visions = enactor.is_admin? || char == enactor
+        end
         # End additional Visions code.
 
 
