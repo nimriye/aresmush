@@ -14,6 +14,7 @@ module AresMUSH
     attribute :temp_room, :type => DataType::Boolean
     attribute :completed
     attribute :scene_type
+    attribute :scene_pacing
     attribute :location
     attribute :summary
     attribute :limit
@@ -28,12 +29,15 @@ module AresMUSH
     collection :scene_poses, "AresMUSH::ScenePose"
     collection :scene_likes, "AresMUSH::SceneLike"
     reference :scene_log, "AresMUSH::SceneLog"
-    reference :plot, "AresMUSH::Plot"
     
     set :invited, "AresMUSH::Character"
     set :watchers, "AresMUSH::Character"
     set :participants, "AresMUSH::Character"
     set :likers, "AresMUSH::Character"
+    set :plots, "AresMUSH::Plot"
+    
+    # DEPRECATED - DO NOT USE (replaced by plots)
+    reference :plot, "AresMUSH::Plot"
     
     before_delete :delete_poses_and_log
     
@@ -86,7 +90,7 @@ module AresMUSH
     end
     
     def all_info_set?
-      missing_fields = self.title.blank? || self.location.blank? || self.scene_type.blank? || self.summary.blank?
+      missing_fields = self.title.blank? || self.location.blank? || self.scene_type.blank? || self.summary.blank? || self.icdate.blank?
       !missing_fields
     end
 
@@ -147,7 +151,7 @@ module AresMUSH
       "#{Game.web_portal_url}/scene/#{self.id}"
     end
     
-    def limited_participation?
+    def has_notes?
       !self.limit.blank?
     end
     

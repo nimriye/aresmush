@@ -16,12 +16,12 @@ module AresMUSH
           if (Login.find_web_client(r))
             names << "#{r.name}#{Website.web_char_marker}"
           else
-            names << "#{r.name}<#{t('page.offline_status')}>"
+            names << "#{r.name}<#{t('global.offline_status')}>"
           end
         elsif (r.page_do_not_disturb)
           names << "#{r.name}<#{t('page.dnd_status')}>"
         elsif (r.is_afk?)
-          names << "#{r.name}<#{t('page.afk_status')}>"
+          names << "#{r.name}<#{t('global.afk_status')}>"
         elsif Status.is_idle?(client)
           time = TimeFormatter.format(client.idle_secs)
           names << "#{r.name}<#{time}>"
@@ -32,6 +32,7 @@ module AresMUSH
       return t('page.recipient_indicator', :recipients => names.join(", "))
     end
     
+    # NO LONGER USED.  Keeping for reference.
     def self.send_afk_message(client, other_client, other_char)
       if (!other_client)
         #client.emit_ooc t('page.recipient_is_offline', :name => other_char.name)

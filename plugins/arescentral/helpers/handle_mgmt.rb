@@ -25,6 +25,7 @@ module AresMUSH
               char.update(ascii_mode_enabled: response.data["ascii_only"])
               char.update(screen_reader: response.data["screen_reader"])
               char.handle.update(friends: response.data["friends"])
+              char.handle.update(profile: response.data["profile"])
               return nil
             else
               char.handle.delete
@@ -71,6 +72,7 @@ module AresMUSH
     def self.unlink_handle(char)
       return if !AresCentral.is_registered?
       return if !char.handle
+      char.handle.delete
       
       AresMUSH.with_error_handling(nil, "Unlinking handle with AresCentral.") do
         connector = AresCentral::AresConnector.new
@@ -79,11 +81,8 @@ module AresMUSH
         
         response = connector.unlink_handle(char.handle.handle_id, char.name, char.id)
           
-        if (response.is_success?)
-          char.handle.delete
-          return nil
-        else
-          return t('arescentral.unlink_failed', :error => response.error_str)
+        if (!response.is_success?)
+          Global.logger.error "Handle unlink failed: #{response.error_str}"
         end
       end
     end  

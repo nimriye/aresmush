@@ -96,7 +96,7 @@ module AresMUSH
       builder.save
   
       systemchar = Character.create(name: "System")
-      systemchar.change_password("change_me!")
+      Login.set_random_password(systemchar)
       systemchar.roles.add admin_role
       systemchar.roles.add everyone_role
       systemchar.room = welcome_room
@@ -137,13 +137,13 @@ module AresMUSH
           announce: false, 
           description: "Public chit-chat",
           color: "%xy")
-      channel.default_alias = [ 'c', 'ch', 'cha' ]
+      channel.default_alias = [ 'ch', 'cha' ]
       channel.save
       
       channel = AresMUSH::Channel.create(name: "Questions",
          color: "%xg",
          description: "Questions and answers.")
-      channel.default_alias = [ 'q', 'qu', 'que' ]
+      channel.default_alias = [ 'qu', 'que' ]
       channel.save
       
       channel = AresMUSH::Channel.create(name: "Game",
@@ -167,7 +167,7 @@ module AresMUSH
       channel = AresMUSH::Channel.create(name: "Admin",
         description: "Admin business.",
         color: "%xr")
-      channel.default_alias = [ 'a', 'ad', 'adm' ]
+      channel.default_alias = [ 'adm' ]
       channel.join_roles.add admin_role
       channel.talk_roles.add admin_role
       channel.save
