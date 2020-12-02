@@ -34,12 +34,12 @@ module AresMUSH
     set :watchers, "AresMUSH::Character"
     set :participants, "AresMUSH::Character"
     set :likers, "AresMUSH::Character"
+    
+    # DEPRECATED - DO NOT USE (replaced by plot links)
+    reference :plot, "AresMUSH::Plot"
     set :plots, "AresMUSH::Plot"
     
-    # DEPRECATED - DO NOT USE (replaced by plots)
-    reference :plot, "AresMUSH::Plot"
-    
-    before_delete :delete_poses_and_log
+    before_delete :on_delete
     
     index :shared
     index :completed
@@ -86,7 +86,12 @@ module AresMUSH
       if (self.scene_log)
         self.scene_log.delete
       end
+    end
+    
+    def on_delete
+      delete_poses_and_log
       Scenes.find_all_scene_links(self).each { |s| s.delete }
+      self.plot_links.each { |p| p.delete }
     end
     
     def all_info_set?
@@ -174,6 +179,19 @@ module AresMUSH
       else
         OOCTime.local_short_timestr(viewer, last_pose.updated_at)
       end
+    end
+    
+    def is_participant?(char)
+      return false if !char
+      char == self.owner || self.participants.include?(char)
+    end
+    
+    def plot_links
+      PlotLink.find_by_scene(self)
+    end
+    
+    def related_plots
+      self.plot_links.map { |p| p.plot }
     end
     
   end

@@ -51,6 +51,7 @@ module AresMUSH
         char.update(profile_icon: profile_icon)
         char.update(profile_gallery: gallery)
         char.update(profile_tags: tags)
+        char.update(profile_order: (request.args[:profile_order] || "").split(',').map { |o| o.strip })
         
         relationships = {}
         (request.args[:relationships] || {}).each do |name, data|
@@ -78,9 +79,11 @@ module AresMUSH
           return { error: errors.join("\n") }
         end
         
-        
         if (Roles.can_assign_role?(enactor))
-          Roles.save_web_roles(char, request.args['roles'])
+          error = Roles.save_web_roles(char, request.args['roles'], enactor)
+          if (error)
+            return { error: error }
+          end
         end
 
         if (Idle.can_manage_roster?(enactor))
