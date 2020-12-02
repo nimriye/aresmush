@@ -7,6 +7,10 @@ module AresMUSH
       File.dirname(__FILE__)
     end
 
+    def self.shortcuts
+      Global.read_config("visions", "shortcuts")
+    end
+
     def self.get_cmd_handler(client, cmd, enactor)
       case cmd.root
       when "visions"
