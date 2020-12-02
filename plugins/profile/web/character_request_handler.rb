@@ -148,6 +148,7 @@ module AresMUSH
           rp_hooks: char.rp_hooks ? Website.format_markdown_for_html(char.rp_hooks) : '',
           desc: char.description,
           playerbit: char.is_playerbit?,
+          is_npc: char.is_npc,
           fs3: fs3,
           traits: traits,
           fate: fate,
