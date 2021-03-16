@@ -64,9 +64,14 @@ BASIC CONTAINERS
 }
 
 .thumbnail-gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.thumbnail-gallery-item {
     height: 150px; 
-    width: 150px;
-    float:left;
+    width: 150px;    
 }
 
 .code-editor {
@@ -1210,6 +1215,11 @@ CHARACTERS SCREEN
     background-image:url('/game/uploads/theme_images/box-bg.png');
 }
 
+.achievement-levels {
+  padding-top: 5px;
+  color: #bbb;
+}
+
 table.char-ability-list { 
   width: 100%;
 }
@@ -1625,6 +1635,10 @@ ul.reference-help-list > li:not(:last-child)::after {
 
 .idle-status {
   white-space: normal;
+}
+
+.server-migration {
+  padding-right: 10px;
 }
 /*.char-scene-list li:before { content: "\2666  "; }*/
 
