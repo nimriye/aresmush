@@ -64,12 +64,7 @@ module AresMUSH
         # End additional Visions code.
 
 
-        details = char.details.map { |name, desc| {
-          name: name,
-          desc: Website.format_markdown_for_html(desc)
-        }}
-
-        can_manage = enactor && Profile.can_manage_char_profile?(enactor, char)
+	can_manage = enactor && Profile.can_manage_char_profile?(enactor, char)
         
         files = Profile.character_page_files(char)
         files = files.map { |f| Website.get_file_info(f) }
@@ -91,8 +86,6 @@ module AresMUSH
         # end Visions addition
 
 
-        {
-          
         profile_data = {
           id: char.id,
           name: char.name,
@@ -111,9 +104,6 @@ module AresMUSH
           profile_gallery: gallery_files.map { |g| Website.get_file_info(g) },
           playerbit: char.is_playerbit?,
           is_npc: char.is_npc,
-          fs3: fs3,
-          traits: traits,
-          fate: fate,
           files: files,
           last_profile_version: char.last_profile_version ? char.last_profile_version.id : nil,
           show_notes: char == enactor || Utils.can_manage_notes?(enactor),
@@ -157,3 +147,4 @@ module AresMUSH
     end
   end
 end
+
