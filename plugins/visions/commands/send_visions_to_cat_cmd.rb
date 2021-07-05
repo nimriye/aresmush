@@ -10,7 +10,7 @@ module AresMUSH
       def parse_args
         if (cmd.args =~ /\//)
           args = cmd.parse_args(ArgParser.arg1_equals_arg2_slash_arg3)
-          self.target_category = downcase_arg(args.arg1)
+          self.target_category = args.arg1
           self.vision_name = args.arg2
           self.description = args.arg3
         end
@@ -31,6 +31,8 @@ module AresMUSH
 
         divider = "+==~~~~~====~~~~====~~~~====~~~~=====~~~~=====~~~~====~~~~====~~~~====~~~~~==+"
 
+	x = 0
+
         chars = Character.all.select { |c| c.vision_cat&.include? "#{self.target_category}" }
         chars.each do |char|
           if (!char.is_npc? && !char.is_admin? && char.is_approved?)
@@ -38,10 +40,18 @@ module AresMUSH
             client.emit_success "Vision ##{v.id} (#{self.vision_name}) sent to #{char.name}."
             Login.emit_if_logged_in(char, "%xg%% You received a vision: #{self.vision_name}!%xn%R#{divider}%R#{self.description}%R#{divider}")
             Login.notify(char, :visions, "New vision ##{v.id}: #{self.vision_name}!", v.id)
+	    x += 1
           else
             next
           end
         end
+
+	if (x == 0 )
+	  client.emit_failure "No targets found. No visions sent. Check the category is an exact match, including case sensitivity. (done)."
+	else
+	  client.emit_success "Vision #{self.vision_name} sent to Category #{self.target_category} (done)."
+	end
+
 
         #chars = Character.all.select { |c| c.vision_cat =~ /^#{self.target_category}$/i && !c.is_npc? && !c.is_admin? && c.is_approved? }
         #chars.each do |char|
@@ -50,7 +60,7 @@ module AresMUSH
         #  Login.emit_if_logged_in(char, "%xg%% You received a vision: #{self.vision_name}!%xn%R#{divider}%R#{self.description}%R#{divider}")
         #  Login.notify(char, :visions, "New vision: #{self.vision_name}! Check your visions.", v.id)
         #end
-          client.emit_success "Vision #{self.vision_name} sent to Category #{self.target_category} (done)."
+
       end
 
     end
