@@ -70,6 +70,8 @@ Most players get by without the usual  "N;north;nor" etc. exit aliases that were
 
 An exit can have a description (visible if you `look N` for example), but you can also use the `shortdesc` feature to change the destination name.  For example, if the exit normally shows `[SE] Forest Road` you can set a shortdesc to make it say `[SE] Dark Path`.
 
+[Details](/help/details) let you set additional details in a room that someone can look at, like a sign, photo, or landmark.
+
 [Vistas](/help/vistas) allow you to set up different pieces of the room description to be shown based on the time of day and season.
 
 ## Room Type
@@ -102,7 +104,9 @@ Areas can have a description (in which you might want to put some ASCII map art 
 
 > Note: If you want to include an ASCII map, include it in 'pre' tags to make it format correctly.  For example:  
 
-    [[pre]]  :-)  [[/pre]]
+    [[pre]]
+    ^^--->>>
+    [[/pre]]
 
 ### Area Hierarchy
 
@@ -152,3 +156,5 @@ Grid coordinates can help people navigate the grid.  You can use whatever coordi
 
 [Building Commands](/help/building)
 [Areas](/help/areas)
+
+[[disableWikiExtensions]]
