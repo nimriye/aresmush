@@ -29,8 +29,8 @@ module AresMUSH
       char.update(roster_played: char.is_approved?)  # Assume played if approved.
       char.update(roster_job: nil)
       Idle.idle_cleanup(char, "Roster")
-      //Roles.remove_role(char, "approved")
-      //Chargen.unsubmit_app(char)
+      #Roles.remove_role(char, "approved")
+      #Chargen.unsubmit_app(char)
     end
     
     def self.remove_from_roster(char)
